@@ -7,26 +7,40 @@ import { useState } from "react";
 function App() {
   const [openForm, setOpenForm] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [showEmpty, setShowEmpty] = useState(true);
 
   function handleOpenForm() {
     setOpenForm(true);
+    setShowEmpty(false);
   }
 
   function handleCloseForm() {
     setOpenForm(false);
+    setShowEmpty(true);
   }
 
   function handleSubmit(project) {
-    console.log(project);
     setProjects((prevProjects) => [...prevProjects, project]);
-    console.log(projects);
+    setOpenForm(false);
+    setShowEmpty(true);
+  }
+
+  function openProject(projectId) {
+    const project = projects.find((project) => project.id === projectId);
+    setSelectedProject(project);
+    setShowEmpty(false);
     setOpenForm(false);
   }
 
   return (
     <main className="flex pt-8 h-screen gap-8">
-      <Sidebar onAddProjectClick={handleOpenForm} projects={projects} />
-      {!openForm && (
+      <Sidebar
+        onAddProjectClick={handleOpenForm}
+        onOpenProject={openProject}
+        projects={projects}
+      />
+      {showEmpty && (
         <section className="mt-24 text-center w-2/3">
           <img
             src={logoImg}
@@ -54,6 +68,7 @@ function App() {
           onProjectSubmit={handleSubmit}
         />
       )}
+      {!openForm && !showEmpty && <Project project={selectedProject} />}
     </main>
   );
 }

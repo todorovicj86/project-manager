@@ -6,16 +6,12 @@ export default function CreateProjectForm({ onButtonClick, onProjectSubmit }) {
     dueDate: "",
   });
 
-  console.log(projectInfo);
-
   function handleFormSubmit(evt) {
     evt.preventDefault();
-    console.log("submit", evt);
     onProjectSubmit({ ...projectInfo, id: Date.now().toString() });
   }
 
   function handleInputChange(evt) {
-    console.log(evt);
     const value = evt.target.value;
     const name = evt.target.name;
 
