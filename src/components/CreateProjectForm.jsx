@@ -4,6 +4,7 @@ export default function CreateProjectForm({ onButtonClick, onProjectSubmit }) {
     title: "",
     description: "",
     dueDate: "",
+    tasks: [],
   });
 
   function handleFormSubmit(evt) {

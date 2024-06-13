@@ -9,6 +9,7 @@ function App() {
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [showEmpty, setShowEmpty] = useState(true);
+  const [tasks, setTasks] = useState([]);
 
   function handleOpenForm() {
     setOpenForm(true);
@@ -31,6 +32,33 @@ function App() {
     setSelectedProject(project);
     setShowEmpty(false);
     setOpenForm(false);
+  }
+
+  function handleAddTask(projectId, taskValue) {
+    setProjects((prevProjects) =>
+      prevProjects.map((project) =>
+        project.id === projectId
+          ? { ...project, tasks: [...project.tasks, taskValue] }
+          : project
+      )
+    );
+    const project = projects.find((project) => project.id === projectId);
+    setSelectedProject(project);
+  }
+
+  function handleClearTask(projectId, taskId) {
+    setProjects((prevProjects) =>
+      prevProjects.map((project) =>
+        project.id === projectId
+          ? {
+              ...project,
+              tasks: project.tasks.filter((task) => task.id !== taskId),
+            }
+          : project
+      )
+    );
+    const project = projects.find((project) => project.id === projectId);
+    setSelectedProject(project);
   }
 
   return (
@@ -68,7 +96,13 @@ function App() {
           onProjectSubmit={handleSubmit}
         />
       )}
-      {!openForm && !showEmpty && <Project project={selectedProject} />}
+      {!openForm && !showEmpty && (
+        <Project
+          onAddTask={handleAddTask}
+          onClearTask={handleClearTask}
+          project={selectedProject}
+        />
+      )}
     </main>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
-export default function Project({ project }) {
-  const [tasks, setTasks] = useState([]);
+export default function Project({ project, onAddTask, onClearTask }) {
+  const [tasks, setTasks] = useState({});
   const [taskValue, setTaskValue] = useState({});
 
   function handleInput(evt) {
@@ -8,14 +8,13 @@ export default function Project({ project }) {
   }
 
   function handleAddTask() {
-    setTasks((prevTasks) => [...prevTasks, taskValue]);
+    onAddTask(project.id, taskValue);
     setTaskValue({});
   }
 
   function handleClearTask(evt) {
     const taskId = evt.target.dataset.target;
-
-    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+    onClearTask(project.id, taskId);
   }
 
   return (
@@ -52,14 +51,14 @@ export default function Project({ project }) {
           </button>
         </div>
 
-        {tasks.length === 0 && (
+        {(!project.tasks || project.tasks.length === 0) && (
           <p className="text-stone-800 my-4">
             This project does not have tasks
           </p>
         )}
-        {tasks.length > 0 && (
+        {project.tasks && project.tasks.length > 0 && (
           <ul className="p-4 mt-8 rounded-md bg-stone-100">
-            {tasks.map((task) => (
+            {project.tasks.map((task) => (
               <li key={task.id} className="flex justify-between my-4">
                 <span>{task.name}</span>
                 <button
