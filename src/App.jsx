@@ -67,6 +67,13 @@ function App() {
     }));
   }
 
+  function handleProjectDelete(projectId) {
+    setProjects((prevProjects) =>
+      prevProjects.filter((project) => project.id !== projectId)
+    );
+    setShowEmpty(true);
+  }
+
   return (
     <main className="flex pt-8 h-screen gap-8">
       <Sidebar
@@ -107,6 +114,7 @@ function App() {
           onAddTask={handleAddTask}
           onClearTask={handleClearTask}
           project={selectedProject}
+          onProjectDelete={handleProjectDelete}
         />
       )}
     </main>

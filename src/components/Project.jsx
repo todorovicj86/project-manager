@@ -1,5 +1,10 @@
 import { useState } from "react";
-export default function Project({ project, onAddTask, onClearTask }) {
+export default function Project({
+  project,
+  onAddTask,
+  onClearTask,
+  onProjectDelete,
+}) {
   console.log("project is rendered");
   const [taskValue, setTaskValue] = useState({});
 
@@ -17,6 +22,10 @@ export default function Project({ project, onAddTask, onClearTask }) {
     onClearTask(project.id, taskId);
   }
 
+  function handleProjectDelete() {
+    onProjectDelete(project.id);
+  }
+
   return (
     <section className="w-[35rem] mt-16">
       <div className="pb-4 mb-4 border-b-2 border-stone-300">
@@ -24,7 +33,11 @@ export default function Project({ project, onAddTask, onClearTask }) {
           <h2 className="text-3xl font-bold text-stone-600 mb-2">
             {project.title}
           </h2>
-          <button type="button" className="text-stone-600 hover:text-stone-950">
+          <button
+            type="button"
+            onClick={handleProjectDelete}
+            className="text-stone-600 hover:text-stone-950"
+          >
             delete
           </button>
         </div>
