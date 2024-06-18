@@ -1,6 +1,6 @@
 import { useState } from "react";
 export default function Project({ project, onAddTask, onClearTask }) {
-  const [tasks, setTasks] = useState({});
+  console.log("project is rendered");
   const [taskValue, setTaskValue] = useState({});
 
   function handleInput(evt) {

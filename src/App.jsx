@@ -5,11 +5,11 @@ import logoImg from "./assets/logo.png";
 import { useState } from "react";
 
 function App() {
+  console.log("app is rendered");
   const [openForm, setOpenForm] = useState(false);
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [showEmpty, setShowEmpty] = useState(true);
-  const [tasks, setTasks] = useState([]);
 
   function handleOpenForm() {
     setOpenForm(true);
@@ -42,8 +42,11 @@ function App() {
           : project
       )
     );
-    const project = projects.find((project) => project.id === projectId);
-    setSelectedProject(project);
+
+    setSelectedProject((prevProject) => ({
+      ...prevProject,
+      tasks: [...prevProject.tasks, taskValue],
+    }));
   }
 
   function handleClearTask(projectId, taskId) {
@@ -57,8 +60,11 @@ function App() {
           : project
       )
     );
-    const project = projects.find((project) => project.id === projectId);
-    setSelectedProject(project);
+
+    setSelectedProject((prevProject) => ({
+      ...prevProject,
+      tasks: prevProject.tasks.filter((task) => task.id !== taskId),
+    }));
   }
 
   return (
