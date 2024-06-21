@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 export default function CreateProjectForm({ onButtonClick, onProjectSubmit }) {
   const [projectInfo, setProjectInfo] = useState({
     title: "",
@@ -6,20 +6,21 @@ export default function CreateProjectForm({ onButtonClick, onProjectSubmit }) {
     dueDate: "",
     tasks: [],
   });
+  const title = useRef();
+  const description = useRef();
+  const dueDate = useRef();
 
   function handleFormSubmit(evt) {
     evt.preventDefault();
-    onProjectSubmit({ ...projectInfo, id: Date.now().toString() });
-  }
+    const updatedProjectInfo = {
+      ...projectInfo,
+      title: title.current.value,
+      description: description.current.value,
+      dueDate: dueDate.current.value,
+    };
 
-  function handleInputChange(evt) {
-    const value = evt.target.value;
-    const name = evt.target.name;
-
-    setProjectInfo((prevProjectInfo) => ({
-      ...prevProjectInfo,
-      [name]: value,
-    }));
+    setProjectInfo(updatedProjectInfo);
+    onProjectSubmit({ ...updatedProjectInfo, id: Date.now().toString() });
   }
 
   return (
@@ -41,8 +42,7 @@ export default function CreateProjectForm({ onButtonClick, onProjectSubmit }) {
         </label>
         <input
           name="title"
-          onInput={handleInputChange}
-          value={projectInfo.title || ""}
+          ref={title}
           className="w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-none focus:border-stone-600"
           type="text"
         />
@@ -53,8 +53,7 @@ export default function CreateProjectForm({ onButtonClick, onProjectSubmit }) {
         </label>
         <textarea
           name="description"
-          onInput={handleInputChange}
-          value={projectInfo.description || ""}
+          ref={description}
           className="w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-none focus:border-stone-600"
         />
       </div>
@@ -64,8 +63,7 @@ export default function CreateProjectForm({ onButtonClick, onProjectSubmit }) {
         </label>
         <input
           name="dueDate"
-          onInput={handleInputChange}
-          value={projectInfo.dueDate || ""}
+          ref={dueDate}
           className="w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-none focus:border-stone-600"
           type="date"
         />

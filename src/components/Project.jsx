@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Task from "./Task";
+
 export default function Project({
   project,
   onAddTask,
@@ -17,8 +19,7 @@ export default function Project({
     setTaskValue({});
   }
 
-  function handleClearTask(evt) {
-    const taskId = evt.target.dataset.target;
+  function handleClearTask(taskId) {
     onClearTask(project.id, taskId);
   }
 
@@ -72,17 +73,7 @@ export default function Project({
         {project.tasks && project.tasks.length > 0 && (
           <ul className="p-4 mt-8 rounded-md bg-stone-100">
             {project.tasks.map((task) => (
-              <li key={task.id} className="flex justify-between my-4">
-                <span>{task.name}</span>
-                <button
-                  onClick={handleClearTask}
-                  data-target={task.id}
-                  type="button"
-                  className="text-stone-700 hover:text-red-500"
-                >
-                  Clear
-                </button>
-              </li>
+              <Task key={task.id} task={task} onClearTask={handleClearTask} />
             ))}
           </ul>
         )}
