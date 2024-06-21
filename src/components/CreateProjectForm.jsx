@@ -1,11 +1,5 @@
 import { useState, useRef } from "react";
 export default function CreateProjectForm({ onButtonClick, onProjectSubmit }) {
-  const [projectInfo, setProjectInfo] = useState({
-    title: "",
-    description: "",
-    dueDate: "",
-    tasks: [],
-  });
   const title = useRef();
   const description = useRef();
   const dueDate = useRef();
@@ -13,14 +7,13 @@ export default function CreateProjectForm({ onButtonClick, onProjectSubmit }) {
   function handleFormSubmit(evt) {
     evt.preventDefault();
     const updatedProjectInfo = {
-      ...projectInfo,
+      id: Date.now().toString(),
       title: title.current.value,
       description: description.current.value,
       dueDate: dueDate.current.value,
     };
 
-    setProjectInfo(updatedProjectInfo);
-    onProjectSubmit({ ...updatedProjectInfo, id: Date.now().toString() });
+    onProjectSubmit({ ...updatedProjectInfo });
   }
 
   return (

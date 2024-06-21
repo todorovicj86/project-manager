@@ -20,7 +20,8 @@ export default function Sidebar({
         + add project
       </button>
       <ul className="mt-8">
-        {projects.length > 0 &&
+        {projects &&
+          projects.length > 0 &&
           projects.map((project) => (
             <li key={project.id} id={project.id}>
               <button data-target={project.id} onClick={handleClick}>
