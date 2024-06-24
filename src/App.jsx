@@ -12,8 +12,6 @@ function App() {
     projects: [],
     tasks: [],
   });
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [showEmpty, setShowEmpty] = useState(true);
 
   function handleOpenForm() {
     setOpenForm(true);
@@ -44,40 +42,33 @@ function App() {
   }
 
   function handleAddTask(projectId, taskValue) {
+    const newTask = {
+      id: `task-${Date.now().toString()}`,
+      name: taskValue,
+      projectId: projectId,
+    };
+
     setProjects((prevState) => ({
       ...prevState,
-      tasks: [taskValue, ...prevState.tasks],
+      tasks: [newTask, ...prevState.tasks],
     }));
-
-    // setSelectedProject((prevProject) => ({
-    //   ...prevProject,
-    //   tasks: [...prevProject.tasks, taskValue],
-    // }));
   }
 
-  function handleClearTask(projectId, taskId) {
-    setProjects((prevProjects) =>
-      prevProjects.map((project) =>
-        project.id === projectId
-          ? {
-              ...project,
-              tasks: project.tasks.filter((task) => task.id !== taskId),
-            }
-          : project
-      )
-    );
-
-    // setSelectedProject((prevProject) => ({
-    //   ...prevProject,
-    //   tasks: prevProject.tasks.filter((task) => task.id !== taskId),
-    // }));
+  function handleClearTask(taskId) {
+    setProjects((prevState) => ({
+      ...prevState,
+      tasks: prevState.tasks.filter((task) => task.id !== taskId),
+    }));
   }
 
   function handleProjectDelete(projectId) {
-    setProjects((prevProjects) =>
-      prevProjects.projects.filter((project) => project.id !== projectId)
-    );
-    // setShowEmpty(true);
+    setProjects((prevState) => ({
+      ...prevState,
+      selectedProject: null,
+      projects: prevState.projects.filter(
+        (project) => project.id !== projectId
+      ),
+    }));
   }
 
   return (

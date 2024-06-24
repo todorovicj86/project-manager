@@ -3,24 +3,24 @@ import Task from "./Task";
 
 export default function Project({
   project,
+  tasks,
   onAddTask,
   onClearTask,
   onProjectDelete,
 }) {
   console.log("project is rendered");
-  const [taskValue, setTaskValue] = useState({});
-
+  const [taskValue, setTaskValue] = useState("");
   function handleInput(evt) {
-    setTaskValue({ name: evt.target.value, id: Date.now().toString() });
+    setTaskValue(evt.target.value);
   }
 
   function handleAddTask() {
     onAddTask(project.id, taskValue);
-    setTaskValue({});
+    setTaskValue("");
   }
 
   function handleClearTask(taskId) {
-    onClearTask(project.id, taskId);
+    onClearTask(taskId);
   }
 
   function handleProjectDelete() {
@@ -52,7 +52,7 @@ export default function Project({
         <div className="flex items-center gap-4">
           <input
             onInput={handleInput}
-            value={taskValue.name || ""}
+            value={taskValue || ""}
             type="text"
             className="w-64 px-2 py-1 rounded-sm bg-stone-200"
           />
@@ -65,16 +65,23 @@ export default function Project({
           </button>
         </div>
 
-        {(!project.tasks || project.tasks.length === 0) && (
+        {(!tasks || tasks.length === 0) && (
           <p className="text-stone-800 my-4">
             This project does not have tasks
           </p>
         )}
-        {project.tasks && project.tasks.length > 0 && (
+        {tasks && tasks.length > 0 && (
           <ul className="p-4 mt-8 rounded-md bg-stone-100">
-            {project.tasks.map((task) => (
-              <Task key={task.id} task={task} onClearTask={handleClearTask} />
-            ))}
+            {tasks.map(
+              (task) =>
+                task.projectId === project.id && (
+                  <Task
+                    key={task.id}
+                    task={task}
+                    onClearTask={handleClearTask}
+                  />
+                )
+            )}
           </ul>
         )}
       </div>
