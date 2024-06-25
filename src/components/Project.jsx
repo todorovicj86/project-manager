@@ -11,6 +11,7 @@ export default function Project({
   console.log("project is rendered");
   const hasTasks = tasks.find(task => task.projectId === project.id);
   const [taskValue, setTaskValue] = useState("");
+  
   function handleInput(evt) {
     setTaskValue(evt.target.value);
   }

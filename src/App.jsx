@@ -79,8 +79,7 @@ function App() {
         projects={projects.projects}
       />
       {projects &&
-        projects.projects &&
-        projects.projects.length === 0 &&
+        (projects.projects.length === 0 || !projects.selectedProject) &&
         !openForm && <EmptyState onOpenForm={handleOpenForm} />}
       {openForm && (
         <CreateProjectForm

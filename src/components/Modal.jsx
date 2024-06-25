@@ -3,6 +3,7 @@ import { forwardRef, useRef, useImperativeHandle } from 'react';
 
 const Modal = forwardRef(function Modal({children}, ref) {
     const dialog = useRef();
+    
     useImperativeHandle(ref, () => {
         return {
             openModal() {
