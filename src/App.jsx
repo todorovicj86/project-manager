@@ -5,8 +5,6 @@ import EmptyState from './components/EmptyState';
 import { useState } from 'react';
 
 function App() {
-    console.log('app is rendered');
-    const [openForm, setOpenForm] = useState(false);
     const [projects, setProjects] = useState({
         selectedProject: undefined,
         projects: [],
@@ -14,20 +12,25 @@ function App() {
     });
 
     function handleOpenForm() {
-        setOpenForm(true);
+        setProjects((prevState) => ({
+            ...prevState,
+            selectedProject: null,
+        }));
     }
 
     function handleCloseForm() {
-        setOpenForm(false);
+        setProjects((prevState) => ({
+            ...prevState,
+            selectedProject: undefined,
+        }));
     }
 
-    function handleSubmit(project) {
+    function handleAddProject(project) {
         setProjects((prevState) => ({
             ...prevState,
             selectedProject: undefined,
             projects: [project, ...prevState.projects],
         }));
-        setOpenForm(false);
     }
 
     function openProject(projectId) {
@@ -36,7 +39,6 @@ function App() {
             ...prevState,
             selectedProject: project,
         }));
-        setOpenForm(false);
     }
 
     function handleAddTask(projectId, taskValue) {
@@ -62,17 +64,23 @@ function App() {
     function handleProjectDelete(projectId) {
         setProjects((prevState) => ({
             ...prevState,
-            selectedProject: null,
+            selectedProject: undefined,
             projects: prevState.projects.filter((project) => project.id !== projectId),
         }));
+    }
+
+    let mainContent = <Project onAddTask={handleAddTask} onClearTask={handleClearTask} project={projects.selectedProject} tasks={projects.tasks} onProjectDelete={handleProjectDelete} />;
+
+    if (projects.selectedProject === null) {
+        mainContent = <NewProject onButtonClick={handleCloseForm} onProjectSubmit={handleAddProject} />;
+    } else if (projects.selectedProject === undefined) {
+        mainContent = <EmptyState onOpenForm={handleOpenForm} />;
     }
 
     return (
         <main className="flex pt-8 h-screen gap-8">
             <Sidebar onAddProjectClick={handleOpenForm} onOpenProject={openProject} projects={projects.projects} />
-            {projects && (projects.projects.length === 0 || !projects.selectedProject) && !openForm && <EmptyState onOpenForm={handleOpenForm} />}
-            {openForm && <NewProject onButtonClick={handleCloseForm} onProjectSubmit={handleSubmit} />}
-            {projects.selectedProject && !openForm && <Project onAddTask={handleAddTask} onClearTask={handleClearTask} project={projects.selectedProject} tasks={projects.tasks} onProjectDelete={handleProjectDelete} />}
+            {mainContent}
         </main>
     );
 }
