@@ -5,28 +5,28 @@ import EmptyState from './components/EmptyState';
 import { useState } from 'react';
 
 function App() {
-    const [projects, setProjects] = useState({
+    const [projectsState, setProjectsState] = useState({
         selectedProject: undefined,
         projects: [],
         tasks: [],
     });
 
     function handleOpenForm() {
-        setProjects((prevState) => ({
+        setProjectsState((prevState) => ({
             ...prevState,
             selectedProject: null,
         }));
     }
 
     function handleCloseForm() {
-        setProjects((prevState) => ({
+        setProjectsState((prevState) => ({
             ...prevState,
             selectedProject: undefined,
         }));
     }
 
     function handleAddProject(project) {
-        setProjects((prevState) => ({
+        setProjectsState((prevState) => ({
             ...prevState,
             selectedProject: undefined,
             projects: [project, ...prevState.projects],
@@ -34,8 +34,8 @@ function App() {
     }
 
     function openProject(projectId) {
-        const project = projects.projects.find((project) => project.id === projectId);
-        setProjects((prevState) => ({
+        const project = projectsState.projects.find((project) => project.id === projectId);
+        setProjectsState((prevState) => ({
             ...prevState,
             selectedProject: project,
         }));
@@ -48,38 +48,38 @@ function App() {
             projectId: projectId,
         };
 
-        setProjects((prevState) => ({
+        setProjectsState((prevState) => ({
             ...prevState,
             tasks: [newTask, ...prevState.tasks],
         }));
     }
 
     function handleClearTask(taskId) {
-        setProjects((prevState) => ({
+        setProjectsState((prevState) => ({
             ...prevState,
             tasks: prevState.tasks.filter((task) => task.id !== taskId),
         }));
     }
 
     function handleProjectDelete(projectId) {
-        setProjects((prevState) => ({
+        setProjectsState((prevState) => ({
             ...prevState,
             selectedProject: undefined,
             projects: prevState.projects.filter((project) => project.id !== projectId),
         }));
     }
 
-    let mainContent = <Project onAddTask={handleAddTask} onClearTask={handleClearTask} project={projects.selectedProject} tasks={projects.tasks} onProjectDelete={handleProjectDelete} />;
+    let mainContent = <Project onAddTask={handleAddTask} onClearTask={handleClearTask} project={projectsState.selectedProject} tasks={projectsState.tasks} onProjectDelete={handleProjectDelete} />;
 
-    if (projects.selectedProject === null) {
+    if (projectsState.selectedProject === null) {
         mainContent = <NewProject onButtonClick={handleCloseForm} onProjectSubmit={handleAddProject} />;
-    } else if (projects.selectedProject === undefined) {
+    } else if (projectsState.selectedProject === undefined) {
         mainContent = <EmptyState onOpenForm={handleOpenForm} />;
     }
 
     return (
         <main className="flex pt-8 h-screen gap-8">
-            <Sidebar onAddProjectClick={handleOpenForm} onOpenProject={openProject} projects={projects.projects} />
+            <Sidebar onAddProjectClick={handleOpenForm} onOpenProject={openProject} projects={projectsState.projects} />
             {mainContent}
         </main>
     );
