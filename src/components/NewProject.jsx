@@ -10,19 +10,19 @@ export default function NewProject({ onButtonClick, onProjectSubmit }) {
 
     function handleFormSubmit(evt) {
         evt.preventDefault();
-        const updatedProjectInfo = {
-            id: Date.now().toString(),
-            title: title.current.value,
-            description: description.current.value,
-            dueDate: dueDate.current.value,
-        };
-
         const isNotValidForm = !title.current.value || !description.current.value || !dueDate.current.value;
 
         if (isNotValidForm) {
             handleOpenDialog();
             return;
         }
+
+        const updatedProjectInfo = {
+            id: Date.now().toString(),
+            title: title.current.value,
+            description: description.current.value,
+            dueDate: dueDate.current.value,
+        };
 
         onProjectSubmit({ ...updatedProjectInfo });
     }
