@@ -1,5 +1,6 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import Modal from './Modal';
+import Input from './Input';
 
 export default function CreateProjectForm({ onButtonClick, onProjectSubmit }) {
   const title = useRef();
@@ -45,36 +46,13 @@ export default function CreateProjectForm({ onButtonClick, onProjectSubmit }) {
         </button>
       </div>
       <div className="flex flex-col gap-1 my-4">
-        <label className="text-sm font-bold uppercase text-stone-500">
-          title
-        </label>
-        <input
-          name="title"
-          ref={title}
-          className="w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-none focus:border-stone-600"
-          type="text"
-        />
+       <Input label="Title" name="title" type="text" ref={title} />
       </div>
       <div className="flex flex-col gap-1 my-4">
-        <label className="text-sm font-bold uppercase text-stone-500">
-          description
-        </label>
-        <textarea
-          name="description"
-          ref={description}
-          className="w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-none focus:border-stone-600"
-        />
+        <Input name="description" label="Description" ref={description} textarea/>
       </div>
       <div className="flex flex-col gap-1 my-4">
-        <label className="text-sm font-bold uppercase text-stone-500">
-          due date
-        </label>
-        <input
-          name="dueDate"
-          ref={dueDate}
-          className="w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-none focus:border-stone-600"
-          type="date"
-        />
+        <Input label="Due Date" name="dueDate" type="date" ref={dueDate} />
       </div>
     </form>
     <Modal ref={dialog}>
