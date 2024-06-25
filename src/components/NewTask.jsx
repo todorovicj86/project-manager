@@ -4,6 +4,10 @@ export default function NewTask({ onAddTask }) {
     const taskValue = useRef();
 
     function handleAddTask() {
+        if (taskValue.current.value.trim() === '') {
+            return;
+        }
+
         onAddTask(taskValue.current.value);
         taskValue.current.value = '';
     }
