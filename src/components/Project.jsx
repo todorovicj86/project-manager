@@ -1,7 +1,7 @@
 import Tasks from './Tasks';
 
 export default function Project({ project, tasks, onAddTask, onClearTask, onProjectDelete }) {
-    console.log('project is rendered');
+    console.log('new task is rendered');
     const hasTasks = tasks.find((task) => task.projectId === project.id);
 
     function handleProjectDelete() {
