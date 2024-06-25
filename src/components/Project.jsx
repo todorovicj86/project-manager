@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Task from "./Task";
+import NewTask from './NewTask';
 
 export default function Project({
   project,
@@ -50,22 +51,8 @@ export default function Project({
         </p>
       </div>
       <div>
-        <h3 className="text-2xl font-bold text-stone-700 mb-4">Task</h3>
-        <div className="flex items-center gap-4">
-          <input
-            onInput={handleInput}
-            value={taskValue || ""}
-            type="text"
-            className="w-64 px-2 py-1 rounded-sm bg-stone-200"
-          />
-          <button
-            type="button"
-            onClick={handleAddTask}
-            className="text-stone-700 hover:text-stone-950"
-          >
-            add task
-          </button>
-        </div>
+        <h3 className="text-2xl font-bold text-stone-700 mb-4">Tasks</h3>
+        <NewTask onInputChange={handleInput} onAddTask={handleAddTask} taskValue={taskValue}/>
 
         {(!tasks || tasks.length === 0 || !hasTasks) && (
           <p className="text-stone-800 my-4">
