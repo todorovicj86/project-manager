@@ -9,6 +9,7 @@ export default function Project({
   onProjectDelete,
 }) {
   console.log("project is rendered");
+  const hasTasks = tasks.find(task => task.projectId === project.id);
   const [taskValue, setTaskValue] = useState("");
   function handleInput(evt) {
     setTaskValue(evt.target.value);
@@ -65,12 +66,12 @@ export default function Project({
           </button>
         </div>
 
-        {(!tasks || tasks.length === 0) && (
+        {(!tasks || tasks.length === 0 || !hasTasks) && (
           <p className="text-stone-800 my-4">
             This project does not have tasks
           </p>
         )}
-        {tasks && tasks.length > 0 && (
+        {tasks && tasks.length > 0 && hasTasks && (
           <ul className="p-4 mt-8 rounded-md bg-stone-100">
             {tasks.map(
               (task) =>
